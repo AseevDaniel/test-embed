@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empathy-Powered Playbook Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="app-title">🎯 Empathy-Powered Playbook Generator</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel - Input Controls -->
+            <section class="input-panel">
+                <div class="panel-header">
+                    <h2>📝 Scenario & Settings</h2>
+                </div>
+
+                <!-- Scenario Selection -->
+                <div class="form-group">
+                    <label for="scenario" class="form-label">Customer Scenario</label>
+                    <select id="scenario" class="form-select">
+                        <option value="">Select a scenario...</option>
+                        <optgroup label="📞 Core Customer Support">
+                            <option value="upset-pricing">😤 Upset about pricing</option>
+                            <option value="inactive-onboarding">😴 Inactive post-onboarding</option>
+                            <option value="confused-feature">🤔 Confused about feature</option>
+                            <option value="ready-upsell">💎 Ready for upsell</option>
+                            <option value="negative-feedback">😞 Negative feedback response</option>
+                        </optgroup>
+                        <optgroup label="🔧 Technical & Support">
+                            <option value="technical-issue">⚠️ Technical issue or bug</option>
+                            <option value="integration-question">🔗 Integration questions</option>
+                            <option value="performance-concern">⚡ Performance concerns</option>
+                        </optgroup>
+                        <optgroup label="💼 Account & Business">
+                            <option value="renewal-discussion">🔄 Renewal discussion</option>
+                            <option value="billing-inquiry">💳 Billing inquiry</option>
+                        </optgroup>
+                        <optgroup label="📊 Data & Migration">
+                            <option value="data-migration">📦 Data migration needs</option>
+                            <option value="api-documentation">📚 API documentation help</option>
+                        </optgroup>
+                        <optgroup label="🏆 Strategy & Competition">
+                            <option value="competitive-concern">🥊 Competitive comparison</option>
+                            <option value="compliance-requirement">📋 Compliance requirements</option>
+                            <option value="training-request">🎓 Training request</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Empathy Slider -->
+                <div class="form-group">
+                    <label for="empathy" class="form-label">
+                        <span class="label-with-emoji">
+                            <span class="emoji-indicator" id="empathyEmoji">😐</span>
+                            Empathy Level: <span id="empathyValue">5</span>
+                        </span>
+                        <span class="slider-hint">(1=Direct, 10=Very Warm)</span>
+                    </label>
+                    <input type="range" id="empathy" class="form-slider" min="1" max="10" value="5">
+                    <div class="slider-labels">
+                        <span>🤖 Direct</span>
+                        <span>😊 Balanced</span>
+                        <span>🤗 Very Warm</span>
+                    </div>
+                </div>
+
+                <!-- Urgency Slider -->
+                <div class="form-group">
+                    <label for="urgency" class="form-label">
+                        <span class="label-with-emoji">
+                            <span class="emoji-indicator" id="urgencyEmoji">⏰</span>
+                            Urgency Level: <span id="urgencyValue">5</span>
+                        </span>
+                        <span class="slider-hint">(1=Gentle, 10=High Priority)</span>
+                    </label>
+                    <input type="range" id="urgency" class="form-slider" min="1" max="10" value="5">
+                    <div class="slider-labels">
+                        <span>🕊️ Gentle</span>
+                        <span>📋 Moderate</span>
+                        <span>🚨 High Priority</span>
+                    </div>
+                </div>
+
+                <!-- CS Tier Selector -->
+                <div class="form-group">
+                    <label for="csTier" class="form-label">Customer Segment</label>
+                    <select id="csTier" class="form-select">
+                        <option value="smb">🏢 SMB (Small Business)</option>
+                        <option value="mid-market">🏬 Mid-Market</option>
+                        <option value="enterprise">🏭 Enterprise</option>
+                    </select>
+                </div>
+
+                <!-- Product Value Focus -->
+                <div class="form-group">
+                    <label class="form-label">Product Value Focus</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="roi" class="value-checkbox">
+                            <span class="checkmark">💰</span>
+                            ROI & Cost Savings
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="simplicity" class="value-checkbox">
+                            <span class="checkmark">⚡</span>
+                            Simplicity & Ease
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="support" class="value-checkbox">
+                            <span class="checkmark">🤝</span>
+                            Support & Success
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="integrations" class="value-checkbox">
+                            <span class="checkmark">🔗</span>
+                            Integrations & Scale
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Success Plan Options (Hidden by default) -->
+                <div class="form-group success-plan-options hidden" id="successPlanOptions">
+                    <label for="customerOutcome" class="form-label">🎯 Customer Success Outcome</label>
+                    <select id="customerOutcome" class="form-select">
+                        <option value="">Select desired outcome...</option>
+                        <optgroup label="💰 Revenue & Growth">
+                            <option value="increase-retention">Increase Customer Retention</option>
+                            <option value="drive-upsells">Drive Upsells and Cross-Sells</option>
+                            <option value="increase-referrals">Increase Customer Referrals</option>
+                            <option value="expand-international">Expand International Market Presence</option>
+                        </optgroup>
+                        <optgroup label="🚀 Adoption & Engagement">
+                            <option value="enhance-adoption">Enhance User Adoption</option>
+                            <option value="maximize-engagement">Maximize Customer Engagement</option>
+                            <option value="effective-onboarding">Onboard New Customers Effectively</option>
+                            <option value="reduce-onboarding-time">Reduce Customer Onboarding Time</option>
+                            <option value="shorten-time-to-value">Shorten Time to First Value</option>
+                        </optgroup>
+                        <optgroup label="😊 Satisfaction & Experience">
+                            <option value="enhance-satisfaction">Enhance Customer Satisfaction</option>
+                            <option value="increase-nps">Increase Net Promoter Score (NPS)</option>
+                            <option value="optimize-journey">Optimize Customer Journey</option>
+                            <option value="improve-self-service">Improve Self-Service Experience</option>
+                        </optgroup>
+                        <optgroup label="🔧 Operational Excellence">
+                            <option value="mitigate-churn">Mitigate Customer Churn</option>
+                            <option value="reduce-resolution-time">Reduce Time-to-Resolution</option>
+                            <option value="minimize-support-backlog">Minimize Support Ticket Backlog</option>
+                            <option value="improve-health-metrics">Improve Customer Health Metrics</option>
+                        </optgroup>
+                        <optgroup label="🎓 Education & Advocacy">
+                            <option value="expand-education">Expand Customer Education Programs</option>
+                            <option value="foster-advocacy">Foster Customer Advocacy</option>
+                            <option value="strengthen-community">Strengthen Customer Community</option>
+                            <option value="create-feedback-loop">Create Customer Feedback Loop</option>
+                        </optgroup>
+                        <optgroup label="📱 Digital & Technical">
+                            <option value="enhance-mobile-engagement">Enhance Mobile App Engagement</option>
+                            <option value="optimize-mobile-ux">Optimize Mobile User Experience</option>
+                            <option value="enhance-data-analytics">Enhance Data Analytics Adoption</option>
+                            <option value="optimize-cloud-infrastructure">Optimize Cloud Infrastructure</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Plan Duration -->
+                <div class="form-group success-plan-options hidden" id="planDurationGroup">
+                    <label for="planDuration" class="form-label">📅 Plan Duration</label>
+                    <select id="planDuration" class="form-select">
+                        <option value="30">30 Days (Quick Win)</option>
+                        <option value="60" selected>60 Days (Standard)</option>
+                        <option value="90">90 Days (Comprehensive)</option>
+                        <option value="120">120 Days (Enterprise)</option>
+                    </select>
+                </div>
+
+                <!-- Communication Frequency -->
+                <div class="form-group success-plan-options hidden" id="frequencyGroup">
+                    <label for="communicationFrequency" class="form-label">📬 Communication Style</label>
+                    <select id="communicationFrequency" class="form-select">
+                        <option value="light">Light Touch (Weekly check-ins)</option>
+                        <option value="standard" selected>Standard (Bi-weekly with key milestones)</option>
+                        <option value="intensive">Intensive (Multiple touchpoints per week)</option>
+                        <option value="milestone">Milestone-Based (Event-driven communication)</option>
+                    </select>
+                </div>
+
+                <!-- Generate Button -->
+                <button id="generateBtn" class="generate-btn">
+                    <span class="btn-text">✨ Generate Playbook</span>
+                    <span class="btn-success-text hidden">🚀 Generate Success Plan</span>
+                </button>
+            </section>
+
+            <!-- Right Panel - Output Display -->
+            <section class="output-panel">
+                <div class="panel-header">
+                    <h2>📋 Generated Response</h2>
+                    <div class="output-tabs">
+                        <button class="tab-btn active" data-mode="single">🎯 Single Response</button>
+                        <button class="tab-btn" data-mode="sequence">📈 Success Plan</button>
+                    </div>
+                </div>
+
+                <!-- Output Content -->
+                <div class="output-content">
+                    <!-- Single Response Mode -->
+                    <div class="output-mode" id="single-output">
+                        <div class="single-response-tabs">
+                            <button class="response-tab-btn active" data-response="email">📧 Email</button>
+                            <button class="response-tab-btn" data-response="call">📞 Call</button>
+                            <button class="response-tab-btn" data-response="nudge">💬 Nudge</button>
+                        </div>
+                        
+                        <div class="single-response-content">
+                            <div class="response-section" id="email-section">
+                                <div class="output-header">
+                                    <h3>📧 Email Draft</h3>
+                                    <div class="output-actions">
+                                        <button class="action-btn" id="copyEmail">📋 Copy</button>
+                                        <button class="action-btn" id="downloadEmail">💾 Download</button>
+                                    </div>
+                                </div>
+                                <div class="output-text" id="emailText" contenteditable="true">
+                                    Select a scenario and click "Generate Playbook" to see your personalized response.
+                                </div>
+                            </div>
+
+                            <div class="response-section hidden" id="call-section">
+                                <div class="output-header">
+                                    <h3>📞 Call Script</h3>
+                                    <div class="output-actions">
+                                        <button class="action-btn" id="copyCall">📋 Copy</button>
+                                        <button class="action-btn" id="downloadCall">💾 Download</button>
+                                    </div>
+                                </div>
+                                <div class="output-text" id="callText" contenteditable="true">
+                                    Select a scenario and click "Generate Playbook" to see your personalized response.
+                                </div>
+                            </div>
+
+                            <div class="response-section hidden" id="nudge-section">
+                                <div class="output-header">
+                                    <h3>💬 In-App Nudge</h3>
+                                    <div class="output-actions">
+                                        <button class="action-btn" id="copyNudge">📋 Copy</button>
+                                        <button class="action-btn" id="downloadNudge">💾 Download</button>
+                                    </div>
+                                </div>
+                                <div class="output-text" id="nudgeText" contenteditable="true">
+                                    Select a scenario and click "Generate Playbook" to see your personalized response.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Success Plan Mode -->
+                    <div class="output-mode hidden" id="sequence-output">
+                        <div class="success-plan-header">
+                            <h3>📈 Customer Success Plan</h3>
+                            <div class="plan-actions">
+                                <button class="action-btn" id="copyPlan">📋 Copy Plan</button>
+                                <button class="action-btn" id="downloadPlan">💾 Download Plan</button>
+                                <button class="action-btn" id="previewTimeline">📅 Timeline View</button>
+                            </div>
+                        </div>
+                        
+                        <div class="success-plan-content">
+                            <div class="plan-overview" id="planOverview">
+                                <div class="plan-summary">
+                                    <h4>📋 Plan Summary</h4>
+                                    <div id="planSummaryContent">
+                                        Generate a success plan to see the overview and timeline.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="plan-sequence" id="planSequence">
+                                <h4>🎯 Communication Sequence</h4>
+                                <div id="sequenceContent">
+                                    Select a customer outcome and generate a success plan to see the detailed communication sequence.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">
+                    💡 Tip: Adjust empathy and urgency levels to see how tone changes across different communication channels.
+                </p>
+                <div class="footer-actions">
+                    <button id="resetBtn" class="footer-btn">🔄 Reset All</button>
+                    <button id="exportAllBtn" class="footer-btn">📦 Export All</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
